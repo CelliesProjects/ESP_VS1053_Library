@@ -3,10 +3,11 @@
 
    The SPI bus is shared between the M5Stack display and the VS1053 codec board.
 
-   Note: this code is not thread safe.
-   Let the display and VS1053 take turns to use the SPI bus.
+   Let the display and VS1053 take turns using the SPI bus.
  */
-#include <M5GFX.h> /* https://github.com/m5stack/M5GFX */
+
+// The M5Stack display driver library: https://github.com/m5stack/M5GFX
+#include <M5GFX.h>
 
 // This ESP_VS1053_Library
 #include <VS1053.h>
