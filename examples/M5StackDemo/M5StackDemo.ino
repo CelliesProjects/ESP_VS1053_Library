@@ -1,9 +1,9 @@
-/* This is an example that shows how to use the VS1053 library together with M5Stack displays.
+/* This is an example that shows how to use the VS1053 library together with M5Stack Core displays.
    In this example a M5Stack Grey is used.
 
    The SPI bus is shared between the M5Stack display and the VS1053 codec board.
-   This code is not thread safe.  
-   
+   Note: this code is not thread safe.
+
    Let the display and VS1053 take turns to use the SPI bus.
  */
 #include <M5GFX.h> /* https://github.com/m5stack/M5GFX */
@@ -35,12 +35,11 @@ void setup()
 
     /* Start the M5 display */
     display.init();
-    display.setTextSize((float)display.width() / 160);
     display.println("VS1053 + M5Stack display");
 
     Serial.println("Disabling M5Stack DAC and internal speaker");
     const auto DAC_PIN = 25; // on Grey and Fire
-    pinMode(DAC_PIN, OUTPUT); 
+    pinMode(DAC_PIN, OUTPUT);
     digitalWrite(DAC_PIN, 0);
 
     Serial.println("Hello VS1053!");
