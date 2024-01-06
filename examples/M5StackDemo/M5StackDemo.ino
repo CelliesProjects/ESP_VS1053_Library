@@ -1,8 +1,17 @@
 /* This is an example that shows how to use the VS1053 library together with M5Stack displays.
    In this example a M5Stack Grey is used.
+
+   The SPI bus is shared between the M5Stack display and the VS1053 codec board.
+   This code is not thread safe.  
+   
+   Let the display and VS1053 take turns to use the SPI bus.
  */
-#include <VS1053.h>
 #include <M5GFX.h> /* https://github.com/m5stack/M5GFX */
+
+// This ESP_VS1053_Library
+#include <VS1053.h>
+
+#include "SampleMp3.h"
 
 #define VS1053_CS 13
 #define VS1053_DCS 26
@@ -13,11 +22,6 @@
 
 #define VOLUME 100 // volume level 0-100
 
-// This ESP_VS1053_Library
-#include <VS1053.h>
-
-#include "SampleMp3.h"
-
 M5GFX display;
 VS1053 player(VS1053_CS, VS1053_DCS, VS1053_DREQ);
 
@@ -26,7 +30,7 @@ void setup()
     Serial.begin(115200);
     Serial.println("\n\nM5Stack Grey + VS1053 Demo");
 
-    // initialize SPI with the M5Stack defined pins
+    // Initialize SPI with the M5Stack SPI pins
     SPI.begin(SPI_CLK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN);
 
     /* Start the M5 display */
@@ -34,9 +38,10 @@ void setup()
     display.setTextSize((float)display.width() / 160);
     display.println("VS1053 + M5Stack display");
 
-    Serial.println("Disabling M5Stack DAC");
-    pinMode(25, OUTPUT); // 25 on Grey and Fire
-    digitalWrite(25, 0);
+    Serial.println("Disabling M5Stack DAC and internal speaker");
+    const auto DAC_PIN = 25; // on Grey and Fire
+    pinMode(DAC_PIN, OUTPUT); 
+    digitalWrite(DAC_PIN, 0);
 
     Serial.println("Hello VS1053!");
     // initialize a player
