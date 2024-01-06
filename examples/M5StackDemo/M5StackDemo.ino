@@ -2,8 +2,8 @@
    In this example a M5Stack Grey is used.
 
    The SPI bus is shared between the M5Stack display and the VS1053 codec board.
-   Note: this code is not thread safe.
 
+   Note: this code is not thread safe.
    Let the display and VS1053 take turns to use the SPI bus.
  */
 #include <M5GFX.h> /* https://github.com/m5stack/M5GFX */
